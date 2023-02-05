@@ -3,6 +3,16 @@ addEventListener('fetch', event => {
 })
 
 async function handleRequest(request) {
+  const API_TOKEN = "your_api_token"
+  
+  // Check for the API token in the request header
+  if (!request.headers.get('Authorization') || request.headers.get('Authorization') !== `Bearer ${API_TOKEN}`) {
+    return new Response('Unauthorized', {
+      status: 401,
+      statusText: 'Unauthorized'
+    })
+  }
+
   const url = new URL(request.url)
   const hash = url.searchParams.get('hash')
   if (!hash) {
